@@ -1,20 +1,57 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form"
+import { useUserRegisterMutation } from "../app/features/userApi/userApi";
+import {  toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { showToast } from "../utils/showToast";
 
 
 const UserRegister = () => {
-    const {register,handleSubmit,formState: { errors },} = useForm()
+  
+  // using react hook form
+    const {register,handleSubmit,formState: { errors }, reset} = useForm();
+    // show password  
     const [password, setShowPassword] = useState(false);
 
+    // show passowrd 
     const togglePasswordVisibility = () => {
         setShowPassword(!password)        
     }
 
 
+    // call api to register user
+    const [userRegister] = useUserRegisterMutation();
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => console.log(data)
+    // handle submit  email, password, firstname, lastname
+    const onSubmit = async(data) => {
+      const { email, password, firstname, lastname } = data;
+      // user all data
+      const user={
+        email,
+        password,
+        firstname,
+        lastname
+        
+      }
 
+      try {
+        
+        // call api to register user
+        const {success , message } = await userRegister(user).unwrap()
+        // if user register success
+        if (success) {
+          // Show a success toast
+          showToast("success", message);
+          navigate('/user-login')
+          reset();
+        }
+      } catch (error) {
+        console.log(error);  
+        // TODO :  addd error tost       
+      }
+    }    
 
 
   return (
