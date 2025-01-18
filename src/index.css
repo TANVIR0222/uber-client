@@ -18,3 +18,7 @@ html{
   width: 90%;
   margin: 0 auto;
 }
+
+.input-focus{
+  @apply focus:outline-none hover:border-black
+}
