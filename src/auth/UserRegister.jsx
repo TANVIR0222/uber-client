@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form"
 import { useUserRegisterMutation } from "../app/features/userApi/userApi";
-import {  toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
 import { showToast } from "../utils/showToast";
 
 
